@@ -1,0 +1,57 @@
+[project]
+name = "llm-race-pipeline"
+version = "0.1.0"
+description = "Multi-source data pipeline for LLM_Race — fetches model data, normalizes, merges, and outputs dataset.json"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Gdnbit" }]
+
+dependencies = [
+    # HTTP & async
+    "httpx>=0.27.0",
+    "tenacity>=8.2.3",
+    # Parsing
+    "beautifulsoup4>=4.12.3",
+    "lxml>=5.2.0",
+    "pyyaml>=6.0.1",
+    # Data modeling
+    "pydantic>=2.7.0",
+    # AI-assisted ID alignment
+    "anthropic>=0.34.0",
+    # Logging
+    "structlog>=24.1.0",
+    # CLI
+    "typer>=0.12.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.2.0",
+    "pytest-asyncio>=0.23.0",
+    "pytest-httpx>=0.30.0",
+    "ruff>=0.4.0",
+    "mypy>=1.10.0",
+]
+
+[project.scripts]
+llm-race-build = "src.build:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "N", "W"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]

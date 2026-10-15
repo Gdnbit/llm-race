@@ -1,0 +1,59 @@
+# Maps LMArena `organization` field → canonical OpenRouter vendor prefix.
+# Consumed by alignment/normalize.py.
+#
+# Keys are LMArena's display strings (case-sensitive as they appear in the CSV).
+# Values are the canonical vendor used in `Model.id` (the prefix before `/`).
+# When a LMArena org has no entry here, alignment falls back to lowercasing
+# the org name with non-alphanum stripped.
+
+# ── Major proprietary providers ──
+"Google": google
+"OpenAI": openai
+"Anthropic": anthropic
+"xAI": x-ai
+"Cohere": cohere
+"AI21 Labs": ai21
+"Inflection": inflection
+"InflectionAI": inflection
+
+# ── Major open-weight / mixed providers ──
+"Meta": meta-llama
+"Mistral": mistralai
+"Mistral AI": mistralai
+"Microsoft": microsoft
+"NVIDIA": nvidia
+"Stability AI": stabilityai
+"Databricks": databricks
+
+# ── Chinese vendors (key — significant LMArena presence) ──
+"Alibaba": qwen
+"Qwen": qwen
+"DeepSeek": deepseek
+"Z.ai": z-ai
+"Zhipu": z-ai
+"Zhipu AI": z-ai
+"Moonshot": moonshotai
+"MoonShot": moonshotai
+"Moonshot AI": moonshotai
+"MiniMax": minimax
+"01.AI": 01-ai
+"Yi": 01-ai
+"Tencent": tencent
+"Baichuan": baichuan
+"Baichuan Inc.": baichuan
+
+# ── Research labs / other ──
+"Ai2": ai2
+"AI2": ai2
+"Allen AI": ai2
+"NousResearch": nousresearch
+"NexusFlow": nexusflow
+"Reka": reka
+"Snowflake": snowflake
+"OpenAssistant": openassistant
+"LMSYS": lmsys
+"Cognition": cognition
+"Anthracite": anthracite
+"Liquid": liquid
+"Liquid AI": liquid
+"IBM": ibm-granite

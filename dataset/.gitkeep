@@ -1,0 +1,2 @@
+# dataset/ — pipeline 产出的 JSON 数据
+# 实际 .json 文件由 GitHub Actions 自动写入并 push
