@@ -47,7 +47,7 @@ LMArena CSV ────────> alias / exact / fuzzy alignment
 Requires Git, Python 3.11+, uv, and Node.js 22+ with npm.
 
 ```sh
-git clone https://github.com/XINsai/llm-race.git
+git clone https://github.com/Gdnbit/llm-race.git
 cd llm-race/data-pipeline
 uv sync --locked
 uv run python -m src.build --pretty
