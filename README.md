@@ -111,6 +111,18 @@ separate live check; `--dry-run` fetches data without saving it.
 - Build a standalone web comparison UI using the same dataset contract.
 - Add scheduled collection after source terms and quality gates are defined.
 
+## About the maintainer
+
+**Gdnbit** is an AI Solution & Product Engineer focused on enterprise AI delivery,
+agent systems, workflow automation and AI-native development.
+
+- Profile: https://github.com/Gdnbit
+- AI-readable candidate skill: https://github.com/Gdnbit/Gdnbit/tree/main/skills/gdnbit-candidate
+
+The candidate skill is intentionally evidence-aware: it separates public proof,
+private/building work and planning instead of treating every project description
+as equally verified.
+
 ## Contributing and license
 
 Use one `feature/<name>` branch and one PR per change. Read
