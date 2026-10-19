@@ -67,3 +67,11 @@ docs: clarify scoring limitations
 ## Security
 
 发现可能的密钥、隐私或供应链问题时，不要把真实 secret 贴进 issue。请先阅读 [`SECURITY.md`](./SECURITY.md)。
+
+## CI 策略：文档快检与工程全检
+
+修改现有 `README.md`、`DESIGN.md`、`CONTRIBUTING.md` 或模块 README 时，CI 只运行必需的公开文件隐私检查、Markdown 链接校验、固定版本 Gitleaks 对当前文件及完整可访问 Git 历史的扫描、和范围分类回归测试，不再安装 Python/Node 全部依赖。
+
+修改数据管线、MCP、配置、锁定依赖、CI、安全说明、测试代码，或新增/删除任何文件及混合变更时，额外运行原有的 **Pipeline 离线测试**和 **MCP 类型检查、构建与烟测**。变更范围无法证明时也默认全检。PR 与 `main` 的 CI 各运行一次，无重复功能分支 Push 构建。
+
+这套 CI 是工程与发布前的辅助校验，不自动发布数据集或部署，也不代表对外部来源许可、真实评测质量或生产安全的批准。

@@ -1,37 +1,102 @@
 name: CI
-on:
+
+"on":
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
+
 permissions:
   contents: read
+
+concurrency:
+  group: llm-race-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  pipeline:
-    runs-on: ubuntu-latest
+  public-safety:
+    name: Public content and docs
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    outputs:
+      docs_only: ${{ steps.scope.outputs.docs_only }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout complete public history without persisted credentials
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
-      - uses: actions/setup-python@v5
+          fetch-depth: 0
+      - name: Python 3.11
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
-          python-version: '3.11'
-      - name: Install uv
-        run: python -m pip install uv
+          python-version: "3.11"
+      - name: Decide between documentation and full checks (fail closed)
+        id: scope
+        env:
+          CI_EVENT: ${{ github.event_name }}
+          CI_SHA: ${{ github.sha }}
+          CI_BEFORE: ${{ github.event.before }}
+          CI_PR_BASE: ${{ github.event.pull_request.base.sha }}
+        run: |
+          python scripts/ci_scope.py --event "$CI_EVENT" --head "$CI_SHA" \
+            --before "$CI_BEFORE" --pr-base "$CI_PR_BASE" --github-output "$GITHUB_OUTPUT"
+      - name: Scope classifier tests
+        run: python -m unittest discover -s scripts/tests -p 'test_ci_scope.py' -v
+      - name: Tracked file privacy guard and Markdown link check
+        run: |
+          python scripts/ci_scope.py --audit-tree
+          python scripts/ci_scope.py --check-docs
+      - name: Pinned Gitleaks current-tree and full-history scan
+        shell: bash
+        run: |
+          set -euo pipefail
+          temp_dir="$(mktemp -d)"
+          trap 'rm -rf "$temp_dir"' EXIT
+          curl --fail --location --silent --show-error \
+            "https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_x64.tar.gz" \
+            --output "$temp_dir/gitleaks.tar.gz"
+          printf '%s  %s\n' \
+            "551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb" \
+            "$temp_dir/gitleaks.tar.gz" | sha256sum --check
+          tar -xzf "$temp_dir/gitleaks.tar.gz" -C "$temp_dir" gitleaks
+          chmod +x "$temp_dir/gitleaks"
+          "$temp_dir/gitleaks" dir . --no-banner --redact=100 --no-color --log-level=error
+          "$temp_dir/gitleaks" git . --log-opts="--all --full-history" \
+            --no-banner --redact=100 --no-color --log-level=error
+
+  pipeline:
+    needs: public-safety
+    if: needs.public-safety.outputs.docs_only != 'true'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.11"
+      - uses: astral-sh/setup-uv@94527f2e458b27549849d47d273a16bec83a01e9 # v7
+        with:
+          version: "0.11.7"
+          enable-cache: false
       - name: Install locked dependencies
         working-directory: data-pipeline
         run: uv sync --locked
       - name: Offline unit tests
         working-directory: data-pipeline
         run: uv run python -m unittest discover -s tests -v
+
   mcp:
-    runs-on: ubuntu-latest
+    needs: public-safety
+    if: needs.public-safety.outputs.docs_only != 'true'
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
-          node-version: '22'
+          node-version: "22"
           cache: npm
           cache-dependency-path: mcp-server/package-lock.json
       - run: npm ci
@@ -42,3 +107,6 @@ jobs:
         working-directory: mcp-server
       - run: npm test
         working-directory: mcp-server
+
+# No deployment or model/data publishing. A docs-only decision never bypasses
+# the file/privacy review, pinned secrets scan, or Markdown checks.
