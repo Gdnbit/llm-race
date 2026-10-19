@@ -27,7 +27,7 @@ BLOCKED_PARTS = frozenset({"node_modules", ".git", ".venv", "dist", "__pycache__
 BLOCKED_SUFFIXES = frozenset({".pem", ".key", ".p12", ".pfx", ".p8", ".kdbx"})
 PRIVATE_PATTERNS = {
     "local-windows-user-path": re.compile(r"[A-Za-z]:[/\\](?:Users|Works)[/\\]", re.I),
-    "private-conversation": re.compile(r"(?:chatgpt\.com/c/|chatgpt-conversation:)", re.I),
+    "private-conversation": re.compile(r"(?:chatgpt\.com/c/|chatgpt-" r"conversation:)", re.I),
     "cn-phone": re.compile(r"(?<![A-Za-z0-9])1[3-9][0-9]{9}(?![A-Za-z0-9])"),
     "cn-national-id": re.compile(r"(?<![A-Za-z0-9])[1-9][0-9]{5}(?:19|20)[0-9]{2}[01][0-9][0-3][0-9][0-9]{3}[0-9Xx](?![A-Za-z0-9])"),
 }
