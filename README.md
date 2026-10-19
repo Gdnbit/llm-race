@@ -23,7 +23,7 @@ Early MVP. Missing metrics and source freshness affect recommendation quality.
 | Artificial Analysis, Hugging Face, Vectara, SWE-Bench, LiveCodeBench | Planned adapters |
 | `compare_models`, change monitoring, AI-assisted alignment | Planned |
 | Web UI and hosted dataset | Planned; `web/` contains documentation only |
-| CI | Offline pipeline checks and MCP smoke test; no scheduled data publishing |
+| CI | Full Pipeline/MCP checks for code; fast privacy/secret/docs checks for README edits; no scheduled data publishing |
 
 ## Architecture
 
