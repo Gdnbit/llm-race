@@ -30,7 +30,7 @@ LLM_Race 是一个开发者工具项目。安全重点主要包括凭据处理�
 
 ## 报告安全问题
 
-优先使用 GitHub 的 [私密漏洞报告](https://github.com/XINsai/llm-race/security/advisories/new)。
+若仓库已启用 Private Vulnerability Reporting，可通过 [GitHub 安全报告入口](https://github.com/Gdnbit/llm-race/security/advisories/new) 私密提交；如该入口尚不可用，请先以不包含凭据或私人材料的方式联系维护者。
 仅当前 0.1.x 开发线接受安全修复；这不构成生产环境安全保证。
 
 如果问题涉及真实凭据或个人信息，请不要把敏感值直接发布在公开 issue 中。可以先创建不包含 secret 的最小描述，并通过仓库维护者提供的私密渠道补充必要信息。
