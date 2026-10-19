@@ -17,6 +17,13 @@ class ScopeTests(unittest.TestCase):
     def test_readme_only(self):
         self.assertTrue(scope.classify([("M", "README.md")]))
 
+    def test_bilingual_readmes_use_fast_path_when_modified(self):
+        self.assertTrue(scope.classify([("M", "README.md"), ("M", "README_EN.md")]))
+
+    def test_adding_or_removing_language_file_still_runs_full_checks(self):
+        self.assertFalse(scope.classify([("A", "README_EN.md")]))
+        self.assertFalse(scope.classify([("D", "README_EN.md")]))
+
     def test_multiple_existing_docs(self):
         self.assertTrue(scope.classify([("M", "DESIGN.md"), ("M", "web/README.md")]))
 
