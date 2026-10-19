@@ -17,6 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 HEX = re.compile(r"^[0-9a-fA-F]{40}$")
 DOC_FILES = frozenset({
     "README.md",
+    "README_EN.md",
     "DESIGN.md",
     "CONTRIBUTING.md",
     "data-pipeline/README.md",
