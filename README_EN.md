@@ -31,6 +31,14 @@ Turn model metadata from multiple sources into <strong>filterable, explainable, 
 
 ---
 
+## ✦ Proposed direction: Model Race (design only; not implemented)
+
+> **Planning update (2026-10-24):** We are exploring a transition from the current metadata-based MCP shortlisting tool to a **project-aware, multimodal, multi-node evaluation and selection Skill for coding agents**. The proposed workflow would inspect an existing codebase, discover LLM/OCR/ASR/vision and other AI nodes, choose task-specific evaluation criteria, run authorized evaluations with project-relevant cases and licensed benchmarks, and compare multiple development-stage and production-stage deployment portfolios across quality, cost, latency, reliability, and privacy.
+>
+> See the **[full Model Race design documentation](docs/model-race/README.md)** (in Chinese), including project discovery, evaluation methods, multi-objective optimization, source-discovery guidance, Skill/Harness architecture, competitor references, implementation roadmap, and illustrative contracts.
+>
+> **This is a proposed direction, not a shipped feature.** The rest of this README documents the currently implemented LLM Race pipeline and MCP tools accurately. The previous model-directory roadmap is subject to reevaluation.
+
 ## ✦ Why LLM Race?
 
 **The most powerful model on a leaderboard isn't necessarily the right model for the next step in your workflow.**

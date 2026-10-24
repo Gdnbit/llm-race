@@ -1,5 +1,7 @@
 # LLM Race design and implementation status
 
+> **Scope note (2026-10-24):** This is the **current shipped implementation / legacy architecture** document. The newly discussed project-aware, multimodal Model Race Skill is a **proposal only**; read [docs/model-race/README.md](docs/model-race/README.md), [architecture](docs/model-race/04-SKILL-ARCHITECTURE.md) and [roadmap](docs/model-race/06-ROADMAP-AND-ACCEPTANCE.md). Do not treat proposed model evaluations or skill commands as implemented. The earlier dataset expansion plans below are not a commitment to continue maintaining a global model database.
+
 This document describes checked-in code. Roadmap items are labeled explicitly.
 LLM Race helps agents shortlist models for a workflow step.
 
